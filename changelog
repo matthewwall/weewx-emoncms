@@ -1,0 +1,48 @@
+0.14 25apr2016
+* remove dependency on wx_binding
+
+0.13 31oct2015
+* fix true/false configuration conversion bug
+
+0.12 14oct2015
+* update readme with weewx 3.x instructions
+
+0.11 24jul2015
+* obfuscate token in logs
+
+0.10 18apr2015
+* default to node=0 for better out of box experience with emoncms 8.4+
+
+0.9 23mar2015
+* fail hard if unit system is not known
+
+0.8 30jan2015
+* added augment_record option
+
+0.7 12dec2014
+* fix missing return in __init__ (thank you Kenneth Baker)
+
+0.6 06dec2014
+* now compatible with weewx v3
+* added system to specify which observations are uploaded
+* added system to specify per-observation labels, units, and formatting
+
+0.5
+* input_map is now inputs
+* use new conventions in the input map for specifying names and units
+* 'station' is now 'prefix'
+* added option to specify a node id
+* added .json extension to default emoncms url
+* fixed VERSION tag
+
+0.4 04sep2014
+* upload only numeric values
+
+0.3 28jul2014
+* use input_map to map between weewx variable names and emoncms feed names
+
+0.2 13mar2014
+* fix key bug when driver provides subset of all weather data
+
+0.1 01feb2014
+* initial release as packaged weewx extension
