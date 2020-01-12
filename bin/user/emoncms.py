@@ -60,7 +60,6 @@ except ImportError:
 
 import re
 import sys
-import syslog
 import urllib
 import urllib2
 
