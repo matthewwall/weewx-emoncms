@@ -2,7 +2,7 @@
 # installer for EmonCMS
 # Copyright 2014 Matthew Wall
 
-from setup import ExtensionInstaller
+from weecfg.extension import ExtensionInstaller
 
 def loader():
     return EmonCMSInstaller()
@@ -10,7 +10,7 @@ def loader():
 class EmonCMSInstaller(ExtensionInstaller):
     def __init__(self):
         super(EmonCMSInstaller, self).__init__(
-            version="0.14",
+            version="0.15",
             name='emoncms',
             description='Upload weather data to EmonCMS.',
             author="Matthew Wall",

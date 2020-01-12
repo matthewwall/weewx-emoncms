@@ -1,5 +1,4 @@
-# $Id: emoncms.py 1483 2016-04-25 06:53:19Z mwall $
-# Copyright 2013-2014 Matthew Wall
+# Copyright 2013-2020 Matthew Wall
 
 """
 Emoncms is a powerful open-source web-app for processing, logging and
@@ -52,7 +51,13 @@ the input, independent of the local weewx units.
 
 # FIXME: do pattern matching for many similarly-named channels
 
-import Queue
+# support both python2 and python3.  attempt the python3 import first, then
+# fallback to python2.
+try:
+    import queue as Queue
+except ImportError:
+    import Queue
+
 import re
 import sys
 import syslog
@@ -64,23 +69,35 @@ import weewx.restx
 import weewx.units
 from weeutil.weeutil import to_bool, accumulateLeaves
 
-VERSION = "0.14"
+VERSION = "0.15"
 
 if weewx.__version__ < "3":
     raise weewx.UnsupportedFeature("weewx 3 is required, found %s" %
                                    weewx.__version__)
 
-def logmsg(level, msg):
-    syslog.syslog(level, 'restx: EmonCMS: %s' % msg)
+try:
+    # weewx4 logging
+    import weeutil.logger
+    import logging
+    log = logging.getLogger(__name__)
+    def logdbg(msg):
+        log.debug(msg)
+    def loginf(msg):
+        log.info(msg)
+    def logerr(msg):
+        log.error(msg)
+except ImportError:
+    # old-style weewx logging
+    import syslog
+    def logmsg(level, msg):
+        syslog.syslog(level, 'restx: EmonCMS: %s' % msg)
+    def logdbg(msg):
+        logmsg(syslog.LOG_DEBUG, msg)
+    def loginf(msg):
+        logmsg(syslog.LOG_INFO, msg)
+    def logerr(msg):
+        logmsg(syslog.LOG_ERR, msg)
 
-def logdbg(msg):
-    logmsg(syslog.LOG_DEBUG, msg)
-
-def loginf(msg):
-    logmsg(syslog.LOG_INFO, msg)
-
-def logerr(msg):
-    logmsg(syslog.LOG_ERR, msg)
 
 def _obfuscate(s):
     return ('X'*(len(s)-4) + s[-4:])
