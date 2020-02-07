@@ -1,6 +1,6 @@
-# $Id: install.py 1483 2016-04-25 06:53:19Z mwall $
 # installer for EmonCMS
-# Copyright 2014 Matthew Wall
+# Copyright 2014-2020 Matthew Wall
+# Distributed under the terms of the GNU Public License (GPLv3)
 
 from weecfg.extension import ExtensionInstaller
 
@@ -10,7 +10,7 @@ def loader():
 class EmonCMSInstaller(ExtensionInstaller):
     def __init__(self):
         super(EmonCMSInstaller, self).__init__(
-            version="0.15",
+            version="0.16",
             name='emoncms',
             description='Upload weather data to EmonCMS.',
             author="Matthew Wall",

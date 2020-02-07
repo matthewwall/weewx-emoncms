@@ -1,4 +1,5 @@
 # Copyright 2013-2020 Matthew Wall
+# Distributed under the terms of the GNU Public License (GPLv3)
 
 """
 Emoncms is a powerful open-source web-app for processing, logging and
@@ -58,17 +59,20 @@ try:
 except ImportError:
     import Queue
 
+try:
+    from urllib.request import Request
+except ImportError:
+    from urllib2 import Request
+
 import re
-import sys
 import urllib
-import urllib2
 
 import weewx
 import weewx.restx
 import weewx.units
 from weeutil.weeutil import to_bool, accumulateLeaves
 
-VERSION = "0.15"
+VERSION = "0.16"
 
 if weewx.__version__ < "3":
     raise weewx.UnsupportedFeature("weewx 3 is required, found %s" %
@@ -180,7 +184,7 @@ class EmonCMS(weewx.restx.StdRESTbase):
             site_dict = config_dict['StdRESTful']['EmonCMS']
             site_dict = accumulateLeaves(site_dict, max_level=1)
             site_dict['token']
-        except KeyError, e:
+        except KeyError as e:
             logerr("Data will not be uploaded: Missing option %s" % e)
             return
 
@@ -231,6 +235,7 @@ class EmonCMS(weewx.restx.StdRESTbase):
     def new_archive_record(self, event):
         self.archive_queue.put(event.record)
 
+
 class EmonCMSThread(weewx.restx.RESTThread):
 
     _DEFAULT_SERVER_URL = 'http://emoncms.org/input/post.json'
@@ -239,15 +244,13 @@ class EmonCMSThread(weewx.restx.RESTThread):
                  prefix=None, node=None, unit_system=None, augment_record=True,
                  inputs=dict(), obs_to_upload='all', append_units_label=True,
                  server_url=_DEFAULT_SERVER_URL, skip_upload=False,
-                 manager_dict=None,
-                 post_interval=None, max_backlog=sys.maxint, stale=None,
+                 manager_dict=None, post_interval=None, stale=None,
                  log_success=True, log_failure=True,
                  timeout=60, max_tries=3, retry_wait=5):
         super(EmonCMSThread, self).__init__(queue,
                                             protocol_name='EmonCMS',
                                             manager_dict=manager_dict,
                                             post_interval=post_interval,
-                                            max_backlog=max_backlog,
                                             stale=stale,
                                             log_success=log_success,
                                             log_failure=log_failure,
@@ -275,7 +278,7 @@ class EmonCMSThread(weewx.restx.RESTThread):
         if self.skip_upload:
             loginf("skipping upload")
             return
-        req = urllib2.Request(url)
+        req = Request(url)
         req.add_header("User-Agent", "weewx/%s" % weewx.__version__)
         self.post_with_retries(req)
 

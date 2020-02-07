@@ -1,5 +1,6 @@
 emoncms - weewx extension that sends data to EmonCMS
 Copyright 2014 Matthew Wall
+Distributed under the terms of the GNU Public License (GPLv3)
 
 Installation instructions:
 
