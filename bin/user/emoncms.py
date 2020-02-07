@@ -61,11 +61,12 @@ except ImportError:
 
 try:
     from urllib.request import Request
+    from urllib.parse import quote_plus
 except ImportError:
     from urllib2 import Request
+    from urllib import quote_plus
 
 import re
-import urllib
 
 import weewx
 import weewx.restx
@@ -291,7 +292,7 @@ class EmonCMSThread(weewx.restx.RESTThread):
         # if there is a prefix, prepend it to every variable name
         prefix = ''
         if self.prefix is not None:
-            prefix = '%s_' % urllib.quote_plus(self.prefix)
+            prefix = '%s_' % quote_plus(self.prefix)
 
         # if uploading everything, we must check the upload variables list
         # every time since variables may come and go in a record.  use the
