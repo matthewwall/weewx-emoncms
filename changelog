@@ -1,3 +1,6 @@
+0.17 10may2020
+* use correct units label when overriding individual observations
+
 0.16 07feb2020
 * fixed a few python3 incompatibilities
 

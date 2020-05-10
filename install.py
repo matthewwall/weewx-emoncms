@@ -10,7 +10,7 @@ def loader():
 class EmonCMSInstaller(ExtensionInstaller):
     def __init__(self):
         super(EmonCMSInstaller, self).__init__(
-            version="0.16",
+            version="0.17",
             name='emoncms',
             description='Upload weather data to EmonCMS.',
             author="Matthew Wall",
