@@ -288,8 +288,8 @@ class EmonCMSThread(weewx.restx.RESTThread):
         self.post_with_retries(req)
 
     def check_response(self, response):
-        txt = response.read()
-        if txt != 'ok' :
+        txt = response.read().decode().lower()
+        if txt != u'ok' :
             raise weewx.restx.FailedPost("Server returned '%s'" % txt)
 
     def get_url(self, record):
